@@ -1,20 +1,34 @@
 // next/navigation은 앱 라우터용이므로 호환성 문제가 있을 수 있음
 import BookItem from "@/components/book-item";
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import SearchableLayout from "@/components/searchable-layout";
-import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import fetchBooks from "@/lib/fetch-books";
+import { useRouter } from "next/router";
+import { BookData } from "@/types";
 
-export const getServerSideProps = async (context: GetServerSidePropsContext) => {
-  const query = context.query.queryString;
-  const books = await fetchBooks(query as string);
-  return {
-      props: {books},
+// getStaticProps 방식으론 query string을 받아올 수 없음 -> 사전 렌더링 이후 컴포넌트에서 query string 받아오기
+// export const getStaticProps = async (context: GetStaticPropsContext) => {
+//   const query = context.query.queryString;
+//   const books = await fetchBooks(query as string);
+//   return {
+//       props: {books},
+//     }
+// }
+export default function Page() {
+  const [books, setBooks] = useState<BookData[]>([]);
+
+  const router = useRouter();
+  const { queryString } = router.query; // query는 useRouter 객체 안에서 꺼내올 수 있음
+  
+  const fetchSearchResult = async () => {
+    const data = await fetchBooks(queryString as string);
+    setBooks(data);
+  }
+  useEffect(() => {
+    if(queryString) {
+      fetchSearchResult()
     }
-}
-export default function Page({ books }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  // const router = useRouter();
-  // const { queryString } = router.query; // query는 useRouter 객체 안에서 꺼내올 수 있음
+  }, [queryString])
   return (
     <div>
       {
