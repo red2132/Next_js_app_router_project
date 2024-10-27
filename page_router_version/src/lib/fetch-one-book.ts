@@ -1,7 +1,7 @@
 import { BookData } from "@/types";
 
 export default async function fetchOneBook(id: number): Promise<BookData | null> {
-  const url = `http://localhost:12345/book/${id}`;
+  const url = `https://backend-tawny-eta-89.vercel.app/${id}`;
   try {
     const response = await fetch(url);
     if(!response.ok) {

@@ -1,7 +1,7 @@
 import { BookData } from "@/types";
 
 export default async function fetchRandomBooks(): Promise<BookData[]> {
-  const url = `http://localhost:12345/book/random`;
+  const url = `https://backend-tawny-eta-89.vercel.app/book/random`;
 
   try {
     const response = await fetch(url);

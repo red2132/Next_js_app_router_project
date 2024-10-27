@@ -5,11 +5,11 @@ import BookItem from "@/components/book-item";
 import { InferGetStaticPropsType } from "next";
 import fetchBooks from "@/lib/fetch-books";
 import fetchRandomBooks from "@/lib/fetch-random-books";
+import Head from "next/head";
 
 // 약속된 함수명(getServerSideProps)으로 함수를 만들면 ssr 작동 -> 컴포넌트보다 먼저 진행, 컴포넌트에 필요한 데이터 불러옴
 // getStaticProps로 함수로 만들면 ssg로 정적 사이트 생성
 export const getStaticProps = async () => {
-  console.log('인덱스 페이지')
   //Promise.all 병렬적으로 비동기함수 실행
   const [allBooks, recoBooks] = await Promise.all([
     fetchBooks(),
@@ -26,16 +26,24 @@ export const getStaticProps = async () => {
 
 export default function Home({ allBooks, recoBooks }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
-    <div className={style.container}>
-      <section>
-        <h3>지금 추천하는 도서</h3>
-        { recoBooks.map(book => <BookItem key={book.id} {...book} />) }
-      </section>
-      <section>
-        <h3>등록된 모든 도서</h3>
-        { allBooks.map(book => <BookItem key={book.id} {...book} />) }
-      </section>
-    </div>
+    <>
+      <Head>
+        <title>Book Project</title>
+        <meta property="og:image" content="/logo.png" />
+        <meta property="og:title" content="Book Project"/>
+        <meta property="og:description" content="책 소개 프로젝트"/>
+      </Head>
+      <div className={style.container}>
+        <section>
+          <h3>지금 추천하는 도서</h3>
+          { recoBooks.map(book => <BookItem key={book.id} {...book} />) }
+        </section>
+        <section>
+          <h3>등록된 모든 도서</h3>
+          { allBooks.map(book => <BookItem key={book.id} {...book} />) }
+        </section>
+      </div>
+    </>
   );
 }
 
