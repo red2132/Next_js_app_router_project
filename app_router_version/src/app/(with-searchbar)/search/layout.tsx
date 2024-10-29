@@ -1,5 +1,4 @@
 import { ReactNode, Suspense } from "react";
-import Searchbar from "../../components/searchbar";
 
 export default function Layout({
   children,
@@ -10,9 +9,8 @@ export default function Layout({
   return (
     <div>
       <Suspense fallback={<div>로딩 중...</div>}>
-        <Searchbar />
-      </Suspense>
       {children}
+      </Suspense>
     </div>
   );
 }
