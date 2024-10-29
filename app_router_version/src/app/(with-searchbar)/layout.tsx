@@ -11,8 +11,8 @@ export default function Layout({
     <div>
       <Suspense fallback={<div>로딩 중...</div>}>
         <Searchbar />
+        { children }
       </Suspense>
-      {children}
     </div>
   );
 }
