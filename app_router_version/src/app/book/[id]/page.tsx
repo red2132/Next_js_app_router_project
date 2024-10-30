@@ -10,7 +10,7 @@ export function generateStaticParams() {
   return [{ id: "1" }, { id: "2" }, { id: "3" }];
 }
 
-export async function BookDetail({ bookId }:{ bookId: string }) {
+async function BookDetail({ bookId }:{ bookId: string}) {
   const response = await fetch(`${ process.env.NEXT_PUBLIC_API_SERVER_URL }/book/${ bookId }`);
   if(!response.ok) {
     if(response.status === 404) {
@@ -49,7 +49,8 @@ export async function BookDetail({ bookId }:{ bookId: string }) {
 
 async function ReviewList({ bookId }: {bookId: string}) {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/review/book/${bookId}`
+    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/review/book/${bookId}`,
+    { next: { tags: [`review-${bookId}`] } }
   );
   if(!response.ok) {
     throw new Error(`${response.statusText}: 리뷰를 불러올 수 없었습니다`);

@@ -15,6 +15,7 @@ async function Footer() {
       </footer>
     )
   } catch(error) {
+    console.error(error);
     return (
       <div>제작 @red2132</div>
     );
