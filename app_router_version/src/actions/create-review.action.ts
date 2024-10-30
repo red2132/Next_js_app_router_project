@@ -19,7 +19,6 @@ export async function createReviewAction(_: any, formData: FormData) {
 
   // post api 호출
   try {
-    await delay(2000);
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_SERVER_URL}/review`, {
         method: "POST",
