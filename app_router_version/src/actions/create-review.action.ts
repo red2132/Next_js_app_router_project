@@ -18,8 +18,7 @@ export async function createReviewAction(formData: FormData) {
         method: "POST",
         body: JSON.stringify({ bookId ,content, author })
       }
-    )
-    console.log(response.status);
+    );
   } catch (error) {
     console.error(error);
     return;
