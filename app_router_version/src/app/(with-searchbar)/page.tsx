@@ -7,11 +7,8 @@ import { BookData } from "@/types";
 async function AllBooks() {
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book`, { cache: 'force-cache' });
   if(!response.ok) {
-    return (
-      <div>오류가 발생했습니다</div>
-    );
+    return <div>오류 발생...</div>
   }
-
   const allBooks: BookData[] = await response.json();
   return (
     <div>
@@ -24,21 +21,18 @@ async function AllBooks() {
 
 async function RecoBook() {
   //특정 주기마다 캐싱
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/random`, { next: { revalidate: 3 }});
-  if(!response.ok) {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/random`, { next: { revalidate: 3 }});
+    if(!response.ok) {
+      return <div>오류 발생...</div>
+    }
+    const recoBooks: BookData[] = await response.json();
     return (
-      <div>오류가 발생했습니다</div>
+      <div>
+        {recoBooks.map((book) => (
+          <BookItem key={book.id} {...book} />
+        ))}
+      </div>
     );
-  }
-
-  const recoBooks: BookData[] = await response.json();
-  return (
-    <div>
-      {recoBooks.map((book) => (
-        <BookItem key={book.id} {...book} />
-      ))}
-    </div>
-  );
 }
 export default function Home() {
 
@@ -46,7 +40,7 @@ export default function Home() {
     <div className={style.container}>
       <section>
         <h3>지금 추천하는 도서</h3>
-          <RecoBook />
+        <RecoBook />
       </section>
       <section>
         <h3>등록된 모든 도서</h3>
