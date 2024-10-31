@@ -1,6 +1,7 @@
 import BookItem from "@/components/book-item";
 import style from "./page.module.css";
 import { BookData } from "@/types";
+import { Metadata } from "next";
 
 // export const dynamic = "force-dynamic";
 
@@ -34,8 +35,18 @@ async function RecoBook() {
       </div>
     );
 }
-export default function Home() {
 
+export const metadata: Metadata = {
+  title: "Book Project",
+  description: "등록된 도서를 만나보세요!",
+  openGraph: {
+    title: "Book Project",
+    description: "등록된 도서를 만나보세요!",
+    images: ["/logo.jpg"],
+  }
+}
+
+export default function Home() {
   return (
     <div className={style.container}>
       <section>

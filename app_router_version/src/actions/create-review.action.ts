@@ -1,6 +1,5 @@
 "use server";
 
-import { delay } from "@/util/delay";
 import { revalidateTag } from "next/cache";
 
 // 서버 액션: 간결한 동작을 api대신 쓰고 서버에서 작동하기에 보안상 이점이 있음

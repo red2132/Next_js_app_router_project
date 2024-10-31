@@ -4,11 +4,23 @@ import { notFound } from "next/navigation";
 import ReviewItem from "@/components/review-item";
 import ReviewEditor from "@/components/review-editor";
 import Image from "next/image";
+import { Metadata } from "next";
 
 //export const dynamicParams = false; -> 명시되지 않은 페이지는 not found로 이동
 
-export function generateStaticParams() {
-  return [{ id: "1" }, { id: "2" }, { id: "3" }];
+export async function generateStaticParams() {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/book`
+  );
+  if(!response.ok) {
+    throw new Error(response.statusText);
+  }
+
+  const books: BookData[] = await response.json();
+
+  return books.map((book) => ({
+    id: book.id.toString(),
+  }))
 }
 
 async function BookDetail({ bookId }:{ bookId: string}) {
@@ -63,6 +75,30 @@ async function ReviewList({ bookId }: {bookId: string}) {
     }
   </section>;
 }
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id?: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const response = await fetch(`${ process.env.NEXT_PUBLIC_API_SERVER_URL }/book/${ id }`);
+  
+  if(!response.ok) {
+    throw new Error(response.statusText);
+  }
+  const book: BookData = await response.json();
+  return {
+    title: `Book project: "${book.title}"의 상세 정보`,
+    description: `"${book.title}"의 상세 정보입니다`,
+    openGraph: {
+      title: `Book project: "${book.title}"의 상세 정보`,
+      description: `"${book.title}"의 상세 정보입니다`,
+      images: [book.coverImgUrl],
+    }
+  }
+}
+
 export default async function Page({
   params,
 }: {
