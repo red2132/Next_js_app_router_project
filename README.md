@@ -10,7 +10,7 @@
 백엔드: prisma(지원 받음)
 
 ## 배포
-[page Router 버전](https://bookprojectpagerouterver.vercel.app/) <br>
+[page Router 버전](https://bookprojectpagerouterver.vercel.app/)  
 [App Router 버전](https://app-router-version.vercel.app/)
 
 ## 작업 과정
